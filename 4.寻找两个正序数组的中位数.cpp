@@ -7,49 +7,90 @@
 // @lc code=start
 class Solution {
 public:
-    double singleMedian(vector<int>& nums){
+    double singleMedian(vector<int>& nums) {
         int L = nums.size();
-        if(L%2)return nums[L];
-        else return (nums[L]+nums[L-1])/2.0;
+        int tar = L/2;
+        if(L%2)return nums[tar];
+        else return (nums[tar]+nums[tar-1])/2.0;
     }
-    double doubleMedian(vector<int>& nums1, vector<int>& nums2){
-        int L1 = nums1.size(), L2 = nums2.size();
-        int L3 = L1 + L2;
-        int target = L3/2;
 
-        int i1 = 0, i2 = 0;
-        while(i1+i2+1<target){
-            while(nums1[i1]>nums2[i2]&&i1+i2<target&&i2+1<L2)i2++;
-            while(nums1[i2]>nums2[i1]&&i1+i2<target&&i1+1<L1)i1++;
-        }
-        if(L3%2){
-            return max(nums1[i1],nums2[i2]);
-        }else{
-            double s3 = (nums1[i1]+nums2[i2])/2;
-            if(i1>0 && i2>0){
-                double s1 = (nums1[i1-1]+nums1[i1])/2;
-                double s2 = (nums1[i2-1]+nums1[i2])/2;
-                if(s1>s2)return s1>s3?s1:s3;
-                else return s2>s3?s2:s3;
+    double doubleMedian0(vector<int>& nums1, vector<int>& nums2) {
+        int L1 = nums1.size(), L2 = nums2.size();
+        int tar = (L1+L2)/2+1;
+        int temp1 = 0, temp2 = 0;
+        int i=0, j=0, index=0;
+        while(index<tar&&i<L1&&j<L2){
+            if(nums1[i]<nums2[j]){
+                temp1 = temp2;
+                temp2 = nums1[i];
+                index++;
+                i++;
             }else{
-                if(i1>0){
-                    double s1 = (nums1[i1-1]+nums1[i1])/2;
-                    return s1>s3?s1:s3;
-                }else{
-                    double s2 = (nums1[i2-1]+nums1[i2])/2;
-                    return s2>s3?s2:s3;
-                }
-                return s3;
+                temp1 = temp2;
+                temp2 = nums2[j];
+                index++;
+                j++;
             }
         }
+        if(i==L1){
+            while(index<tar){
+                temp1 = temp2;
+                temp2 = nums2[j];
+                index++;
+                j++;
+            }
+        }else{
+            while(index<tar){
+                temp1 = temp2;
+                temp2 = nums1[i];
+                index++;
+                i++;
+            }
+        }
+        return (temp1+temp2)/2.0;
     }
+
+    double doubleMedian1(vector<int>& nums1, vector<int>& nums2) {
+        int L1 = nums1.size(), L2 = nums2.size();
+        int tar = (L1+L2)/2+1;
+        int temp;
+        int i=0, j=0, index=0;
+        while(index<tar&&i<L1&&j<L2){
+            if(nums1[i]<nums2[j]){
+                temp = nums1[i];
+                index++;
+                i++;
+            }else{
+                temp = nums2[j];
+                index++;
+                j++;
+            }
+        }
+        if(i==L1){
+            while(index<tar){
+                temp = nums2[j];
+                index++;
+                j++;
+            }
+        }else{
+            while(index<tar){
+                temp = nums1[i];
+                index++;
+                i++;
+            }
+        }
+        return temp;
+    }
+
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int L1 = nums1.size(), L2 = nums2.size();
         if(L1==0||L2==0){
-            return L2==0?singleMedian(nums1):singleMedian(nums2);
+            if(L1)return singleMedian(nums1);
+            else return singleMedian(nums2);
         }
         else{
-            return doubleMedian(nums1, nums2);
+            if((L1+L2)%2)return doubleMedian1(nums1, nums2);
+            else return doubleMedian0(nums1, nums2);
         }
     }
 };
