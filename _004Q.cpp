@@ -52,10 +52,11 @@ void show_Vector(vector<int>& nums){
 
 int main(){
     //vector<int> nums1 = {1,2}, nums2 = {3,4};
-    vector<int> nums1 = {3}, nums2 = {-2,-1};
+    //vector<int> nums1 = {3}, nums2 = {-2,-1};
     //vector<int> nums1 = {1,3}, nums2 = {2,7};
     //vector<int> nums1 = {1,3}, nums2 = {2};
     //vector<int> nums1 = {0,0,0,0,0}, nums2 = {-1,0,0,0,1};
+    vector<int> nums1 = {1,2,3,4,5}, nums2 = {-1,0,0,0,1};
     show_Vector(nums1);
     show_Vector(nums2);
 
