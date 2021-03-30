@@ -1,12 +1,7 @@
-/*
- * @lc app=leetcode.cn id=4 lang=cpp
- *
- * [4] 寻找两个正序数组的中位数
- */
+#include <iostream>
+#include <vector>
+using namespace std;
 
-// @lc code=start
-class Solution {
-public:
     double singleMedian(vector<int>& nums){
         int L = nums.size();
         if(L%2)return nums[L];
@@ -52,6 +47,20 @@ public:
             return doubleMedian(nums1, nums2);
         }
     }
-};
-// @lc code=end
 
+void show_Vector(vector<int>& nums){
+    for(int i=0; i<nums.size(); i++)
+        cout << nums[i] << " ";
+    cout << endl;
+}
+
+int main(){
+    vector<int> nums1 = {1,2};
+    vector<int> nums2 = {3,4};
+    show_Vector(nums1);
+    show_Vector(nums2);
+
+    double Ret = findMedianSortedArrays(nums1,nums2);
+    cout << Ret << endl;
+    return 0;
+}
